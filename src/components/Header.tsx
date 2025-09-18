@@ -1,6 +1,3 @@
-import viteLogo from '/vite.svg'
-import reactLogo from '../assets/react.svg'
-
 function Header() {
   return (
     <>

@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import Header from './components/Header.tsx'
+import EventsList from './components/EventsList.tsx'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <Header />
+      <EventsList />
     </>
   )
 }
