@@ -1,13 +1,16 @@
 import Header from './components/Header.tsx'
-import EventsList from './components/EventsList.tsx'
+import MealSchedule from './components/MealSchedule.tsx'
+import MealsList from './components/MealsList.tsx'
 
-function App() {
+export default function App() {
   return (
     <>
       <Header />
-      <EventsList />
+
+      <main className="grid grid-cols-3 px-16 py-8 gap-8">
+        <MealSchedule />
+        <MealsList />
+      </main>
     </>
   )
 }
-
-export default App
