@@ -1,36 +1,38 @@
+import { useEffect, useState } from 'react'
 import MealsListItem from './MealsListItem.tsx'
 
-const sampleMeals = [
-  {
-    id: 1,
-    name: 'Tacos',
-    mealTypes: ['lunch', 'dinner'],
-    difficulty: 'easy',
-    leftoverable: false,
-  },
-  {
-    id: 2,
-    name: 'Stuffed bell peppers',
-    mealTypes: ['dinner'],
-    difficulty: 'easy',
-    leftoverable: true,
-  },
-  {
-    id: 3,
-    name: 'Overnight oats',
-    mealTypes: ['breakfast'],
-    difficulty: 'easy',
-    leftoverable: true,
-  },
-]
+async function fetchMealsList () {
+  let result = []
+
+  try {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/meals`)
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`)
+    }
+
+    result = await response.json()
+    console.log(result)
+  } catch (error) {
+    console.error(error.message)
+  } finally {
+    return result
+  }
+}
 
 export default function MealsList() {
+  const [mealsList, setMealsList] = useState([])
+
+  useEffect(() => {
+    setMealsList(fetchMealsList())
+  }, [])
+
   return (
     <div>
       <h2 className="text-2xl mb-8">Meals</h2>
 
       <ul className="flex flex-col gap-8">
-        {sampleMeals.map(meal => (
+        {mealsList.map(meal => (
           <MealsListItem
             key={meal.id}
             name={meal.name}
