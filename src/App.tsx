@@ -1,6 +1,6 @@
 import Header from './components/Header.tsx'
 import MealSchedule from './components/MealSchedule.tsx'
-import MealsList from './components/MealsList.tsx'
+import Meals from './components/meals/Meals.tsx'
 
 export default function App() {
   return (
@@ -9,7 +9,7 @@ export default function App() {
 
       <main className="grid grid-cols-3 px-16 py-8 gap-8">
         <MealSchedule />
-        <MealsList />
+        <Meals />
       </main>
     </>
   )
