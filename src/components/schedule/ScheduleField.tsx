@@ -39,6 +39,7 @@ export default function ScheduleField ({ meal, mealType, scheduleDay }) {
       {meal &&
         <MealCard
           {...meal}
+          scheduledTo={{ mealType, scheduleDay }}
           removable={true}
           onRemove={removeMealFromPlan}
         />

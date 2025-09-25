@@ -1,18 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 
-export default function MealCard ({ name, mealTypes, difficulty, leftoverable, removable=false, onRemove }) {
+export default function MealCard ({
+  name,
+  mealTypes,
+  difficulty,
+  leftoverable,
+  scheduledTo=null,
+  removable=false,
+  onRemove
+}) {
   const meal = useRef(null)
   const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
+    let initialData = { name, mealTypes, difficulty, leftoverable }
+    if (scheduledTo) {
+      initialData = { scheduledTo, ...initialData }
+    }
+
     return draggable({
       element: meal.current,
-      getInitialData: () => ({ name, mealTypes, difficulty, leftoverable }),
+      getInitialData: () => initialData,
       onDragStart: () => setDragging(true),
       onDrop: () => setDragging(false),
     })
-  }, [])
+  }, [scheduledTo])
 
   return (
     <div ref={meal}

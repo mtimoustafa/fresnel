@@ -25,6 +25,8 @@ export default function useSchedule () {
   useEffect(() => {
     return monitorForElements({
       onDrop({ source, location }) {
+        console.log(source, location)
+
         const destination = location.current.dropTargets[0]
         if (!destination || destination.data.component !== 'ScheduleField') return
 
@@ -34,6 +36,16 @@ export default function useSchedule () {
             mealType: destination.data.mealType,
             meal: source.data,
           })
+
+          // TODO: check why this update is "rolled back" after refresh
+          // TODO: prevent drag and drop to same location from deleting meal from schedule
+          // if (!!source.data.scheduledTo) {
+          //   updateMealPlan({
+          //     scheduleDay: source.data.scheduledTo.scheduleDay,
+          //     mealType: source.data.scheduledTo.mealType,
+          //     meal: null,
+          //   })
+          // }
         }
       }
     })
