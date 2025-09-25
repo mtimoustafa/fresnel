@@ -7,7 +7,7 @@ export default function App() {
     <>
       <Header />
 
-      <main className="grid grid-cols-3 px-16 py-8 gap-8">
+      <main className="2xl:grid 2xl:grid-cols-3 px-16 py-8 gap-8">
         <Schedule />
         <Meals />
       </main>

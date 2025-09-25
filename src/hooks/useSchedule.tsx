@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 
 export default function useSchedule () {
   const [mealPlan, setMealPlan] = useState()
 
-  const mealTypes = [
+  const [mealTypes, setMealTypes] = useState([
     'breakfast',
     'lunch',
     'dinner',
-  ]
+  ])
 
-  const scheduleDays = [
+  const [scheduleDays, setScheduleDays] = useState([
     'monday',
     'tuesday',
     'wednesday',
     'thursday',
     'friday',
-  ]
+  ])
 
   useEffect(() => {
     setMealPlan(getMealPlan())
@@ -29,11 +29,11 @@ export default function useSchedule () {
         if (!destination || destination.data.component !== 'ScheduleField') return
 
         if (source.data.mealTypes.includes(destination.data.mealType)) {
-          setMealPlan(mealPlan => {
-            mealPlan[destination.data.scheduleDay][destination.data.mealType] = { ...source.data }
-            return mealPlan
+          updateMealPlan({
+            scheduleDay: destination.data.scheduleDay,
+            mealType: destination.data.mealType,
+            meal: source.data,
           })
-          saveMealPlan(mealPlan)
         }
       }
     })
@@ -60,9 +60,18 @@ export default function useSchedule () {
     )
   }
 
+  function updateMealPlan ({ scheduleDay, mealType, meal }) {
+    setMealPlan(mealPlan => {
+      mealPlan[scheduleDay][mealType] = meal
+      return { ...mealPlan }
+    })
+
+    saveMealPlan(mealPlan)
+  }
+
   function saveMealPlan (value) {
     localStorage.setItem('mealPlan', JSON.stringify(value))
   }
 
-  return { mealPlan, setMealPlan: saveMealPlan, mealTypes, scheduleDays }
+  return { mealPlan, updateMealPlan, mealTypes, scheduleDays }
 }

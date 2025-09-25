@@ -1,5 +1,5 @@
 import useMeals from '../../hooks/useMeals.tsx'
-import MealsListItem from './MealsListItem.tsx'
+import MealCard from '../shared/MealCard.tsx'
 
 export default function MealsList() {
   const { mealsList, loadingMeals } = useMeals()
@@ -16,7 +16,7 @@ export default function MealsList() {
     <ul className="flex flex-col gap-8">
       {mealsList.map(meal => (
         <li key={meal.id}>
-          <MealsListItem
+          <MealCard
             name={meal.name}
             mealTypes={meal.mealTypes}
             difficulty={meal.difficulty}

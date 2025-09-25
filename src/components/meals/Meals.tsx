@@ -12,7 +12,7 @@ function Fallback ({ error, resetErrorBoundary }) {
       <button
         autoFocus
         onClick={resetErrorBoundary}
-        class="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900"
+        className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900"
       >
         Reload meals
       </button>

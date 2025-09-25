@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
-import MealsListItem from '../meals/MealsListItem.tsx'
+import ScheduleContext from './ScheduleContext.tsx'
+import MealCard from '../shared/MealCard.tsx'
 
-export default function ScheduleField ({ mealPlan, mealType, scheduleDay }) {
+export default function ScheduleField ({ meal, mealType, scheduleDay }) {
+  const { updateMealPlan } = useContext(ScheduleContext)
   const [isDraggedOver, setIsDraggedOver] = useState(false)
 
   const scheduleField = useRef(null)
@@ -21,12 +23,26 @@ export default function ScheduleField ({ mealPlan, mealType, scheduleDay }) {
     })
   }, [])
 
+  function removeMealFromPlan () {
+    updateMealPlan({
+      scheduleDay,
+      mealType,
+      newMealPlan: null,
+    })
+  }
+
   return (
     <td
       ref={scheduleField}
       className={`px-4 py-2 rounded-md bg-gray-${isDraggedOver ? '700' : '900'}`}
     >
-      {mealPlan && mealPlan[scheduleDay][mealType] && <MealsListItem {...mealPlan[scheduleDay][mealType]} />}
+      {meal &&
+        <MealCard
+          {...meal}
+          removable={true}
+          onRemove={removeMealFromPlan}
+        />
+      }
     </td>
   )
 }
