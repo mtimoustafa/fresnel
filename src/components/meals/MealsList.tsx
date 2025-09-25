@@ -15,13 +15,14 @@ export default function MealsList() {
   return (
     <ul className="flex flex-col gap-8">
       {mealsList.map(meal => (
-        <MealsListItem
-          key={meal.id}
-          name={meal.name}
-          mealTypes={meal.mealTypes}
-          difficulty={meal.difficulty}
-          leftoverable={meal.leftoverable}
-        />
+        <li key={meal.id}>
+          <MealsListItem
+            name={meal.name}
+            mealTypes={meal.mealTypes}
+            difficulty={meal.difficulty}
+            leftoverable={meal.leftoverable}
+          />
+        </li>
       ))}
     </ul>
   )

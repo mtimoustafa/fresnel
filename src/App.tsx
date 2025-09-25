@@ -1,5 +1,5 @@
 import Header from './components/Header.tsx'
-import MealSchedule from './components/MealSchedule.tsx'
+import Schedule from './components/schedule/Schedule.tsx'
 import Meals from './components/meals/Meals.tsx'
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
       <Header />
 
       <main className="grid grid-cols-3 px-16 py-8 gap-8">
-        <MealSchedule />
+        <Schedule />
         <Meals />
       </main>
     </>
