@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import MealsList from './MealsList.tsx'
+import MealsContext from './MealsContext.tsx'
+import MealsView from './MealsView.tsx'
 
 function logError (error, info) {
   console.error(error, info)
@@ -20,14 +22,25 @@ function Fallback ({ error, resetErrorBoundary }) {
   )
 }
 
-export default function Meals () {
-  return (
-    <div>
-      <h2 className="text-2xl mb-8">Meals</h2>
+const mealsPages = {
+  viewMeals: 'viewMeals',
+  addMeal: 'addMeal',
+}
 
+export default function Meals () {
+  const [mealsNav, setMealsNav] = useState({
+    current: mealsPages.viewMeals,
+    pages: mealsPages,
+    navigate: newPage => setMealsNav({ ...mealsNav, current: newPage }),
+  })
+
+  return (
+    <MealsContext value={mealsNav}>
       <ErrorBoundary FallbackComponent={Fallback} onError={logError}>
-        <MealsList />
+        <div>
+          <MealsView currentView={mealsNav.current} />
+        </div>
       </ErrorBoundary>
-    </div>
+    </MealsContext>
   )
 }

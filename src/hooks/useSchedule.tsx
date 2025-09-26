@@ -25,7 +25,7 @@ export default function useSchedule () {
   useEffect(() => {
     return monitorForElements({
       onDrop({ source, location }) {
-        console.log(source, location)
+        // console.log(source, location)
 
         const destination = location.current.dropTargets[0]
         if (!destination || destination.data.component !== 'ScheduleField') return

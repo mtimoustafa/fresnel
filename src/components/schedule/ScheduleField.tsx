@@ -5,6 +5,7 @@ import MealCard from '../shared/MealCard.tsx'
 
 export default function ScheduleField ({ meal, mealType, scheduleDay }) {
   const { updateMealPlan } = useContext(ScheduleContext)
+
   const [isDraggedOver, setIsDraggedOver] = useState(false)
 
   const scheduleField = useRef(null)
