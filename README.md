@@ -2,6 +2,8 @@
 
 _A work-in-progress collaborative meal planning application, built as an exercise in learning React+Typescript._
 
+[Demo](https://github.com/user-attachments/assets/036e1974-5d94-4e83-92be-5a868d0959ea)
+
 ## Description
 
 This application is mainly an exercise in learning React+Typescript, which I'm building alongside the Pluralsight courses I'm completing.
