@@ -17,7 +17,7 @@ export default function MealsList() {
   }
 
   return (
-    <>
+    <div className="space-y-8">
       <ul className="flex flex-col gap-8">
         {mealsList.map(meal => (
           <li key={meal.id}>
@@ -37,6 +37,6 @@ export default function MealsList() {
       >
         Add meal
       </button>
-    </>
+    </div>
   )
 }

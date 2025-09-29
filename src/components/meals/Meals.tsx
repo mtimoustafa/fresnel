@@ -37,9 +37,7 @@ export default function Meals () {
   return (
     <MealsContext value={mealsNav}>
       <ErrorBoundary FallbackComponent={Fallback} onError={logError}>
-        <div>
           <MealsView currentView={mealsNav.current} />
-        </div>
       </ErrorBoundary>
     </MealsContext>
   )
