@@ -1,69 +1,45 @@
-# React + TypeScript + Vite
+# 🔦 Fresnel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+_A work-in-progress collaborative meal planning application, built as an exercise in learning React+Typescript._
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application is mainly an exercise in learning React+Typescript, which I'm building alongside the Pluralsight courses I'm completing.
 
-## Expanding the ESLint configuration
+Due to this goal, the codebase prioritizes learning to write clean, best-practice React+TS over building a comprehensive, robust app. Some patterns might be overkill or contrived for educational purposes, the UI is not completely polished, some edge cases are not covered, and input and API validation is not comprehensive. The architecture is also not a focus, and the server layer is mocked.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+I'm also open to suggestions from anyone experienced in the tech stack! Feel free to open an issue or draft PR or message me directly.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* Add and manage meals to be used in weekly meal planning.
+* Create and edit a weekly meal schedule based on meal type and difficulty.
+* Account for leftovers, optionally.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Requirements
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Node v22.19.0+.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Clone the repository and navigate to it.
+2. Install the node packages via `npm install` or `yarn`.
+
+## Usage
+
+1. Run the client using `npm run dev` or `yarn dev`.
+2. Run the server using `npm run server` or `yarn server`.
+3. Navigate to `https://localhost:5173` or whatever URL Vite announces in the client log.
+
+## To-do
+
+- [ ] Introduce React server-side components for server layer.
+- [ ] Use SSG with hydration.
+- [ ] Convert the codebase from JS to TS.
+- [ ] Add a linter to learn syntactic best practices.
+
+### Strech goals
+
+- [ ] Add a database.
+- [ ] Allow real-time collaboration via accessing the same URL from different accounts.
+- [ ] Polish the UI as an exercise in learning more advanced CSS.
