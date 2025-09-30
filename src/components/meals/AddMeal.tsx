@@ -1,106 +1,91 @@
-import { useContext, useState, useTransition } from 'react'
+import { useContext } from 'react'
+import { useFormStatus } from 'react-dom'
 import MealsContext from './MealsContext.tsx'
 
 export default function AddMeal () {
   const { pages, navigate } = useContext(MealsContext)
-  const [isPending, startTransition] = useTransition()
 
-  const [meal, setMeal] = useState({
-    name: '',
-    mealTypes: {
-      breakfast: false,
-      lunch: false,
-      dinner: false,
-    },
-    difficulty: 'easy',
-    leftoverable: false,
-  })
+  async function addMeal (mealData) {
+    const meal = {
+      name: mealData.get('name'),
+      mealTypes: ['breakfast', 'lunch', 'dinner'].filter(mealType => mealData.has(mealType)),
+      difficulty: mealData.get('difficulty'),
+      leftoverable: mealData.has('leftoverable'),
+    }
 
-  function updateMealType (e) {
-    return setMeal({
-      ...meal,
-      mealTypes: {
-        ...(meal.mealTypes),
-        [e.target.id]: e.target.checked,
-      }
+    await fetch(`${import.meta.env.VITE_SERVER_URL}/meals`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(meal)
     })
+
+    navigate(pages.allMeals)
   }
 
-  function updateMeal (e) {
-    setMeal({ ...meal, [e.target.id]: e.target.value })
-  }
+  function MealForm () {
+    const { pending } = useFormStatus()
 
-  function addMeal (e) {
-    e.preventDefault()
+    return (
+      <>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input type="text" id="name" name="name" />
+        </div>
 
-    startTransition(async () => {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/meals`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...meal,
-          mealTypes: Object.keys(meal.mealTypes).filter(key => meal.mealTypes[key]),
-        })
-      })
+        <div>
+          <fieldset>
+            <legend>Meal Type</legend>
 
-      navigate(pages.allMeals)
-    })
+            <input type="checkbox" id="breakfast" name="breakfast" />
+            <label htmlFor="breakfast">Breakfast</label>
+
+            <input type="checkbox" id="lunch" name="lunch" />
+            <label htmlFor="lunch">Lunch</label>
+
+            <input type="checkbox" id="dinner" name="dinner" />
+            <label htmlFor="dinner">Dinner</label>
+          </fieldset>
+        </div>
+
+        <div>
+          <label htmlFor="difficulty">Difficulty</label>
+          <select id="difficulty" name="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div>
+          <input type="checkbox" id="leftoverable" name="leftoverable" />
+          <label htmlFor="leftoverable">Can have leftovers</label>
+        </div>
+
+        <button
+          type="submit"
+          className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
+          disabled={pending}
+        >
+          {pending ? 'Adding...' : 'Add Meal'}
+        </button>
+
+        <button
+          type="submit"
+          className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
+          disabled={pending}
+        >
+          Cancel
+        </button>
+      </>
+    )
   }
 
   return (
-    <form onSubmit={addMeal} className="space-y-4">
-      <div>
-        <label htmlFor="name">Name</label>
-        <input type="text" id="name" value={meal.name} onChange={updateMeal} />
-      </div>
-
-      <div>
-        <fieldset>
-          <legend>Meal Type</legend>
-
-          <input type="checkbox" id="breakfast" checked={meal.mealTypes.breakfast} onChange={updateMealType} />
-          <label htmlFor="breakfast">Breakfast</label>
-
-          <input type="checkbox" id="lunch" checked={meal.mealTypes.lunch} onChange={updateMealType} />
-          <label htmlFor="lunch">Lunch</label>
-
-          <input type="checkbox" id="dinner" checked={meal.mealTypes.dinner} onChange={updateMealType} />
-          <label htmlFor="dinner">Dinner</label>
-        </fieldset>
-      </div>
-
-      <div>
-        <label htmlFor="difficulty">Difficulty</label>
-        <select id="difficulty" value={meal.difficulty} onChange={updateMeal}>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </div>
-
-      <div>
-        <input type="checkbox" id="leftoverable" checked={meal.leftoverable} onChange={updateMeal} />
-        <label htmlFor="leftoverable">Can have leftovers</label>
-      </div>
-
-      <button
-        type="submit"
-        className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
-        disabled={isPending}
-      >
-        {isPending ? 'Adding...' : 'Add Meal'}
-      </button>
-
-      <button
-        onClick={() => navigate(pages.allMeals)}
-        className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
-        disabled={isPending}
-      >
-        Cancel
-      </button>
+    <form action={addMeal} className="space-y-4">
+      <MealForm />
     </form>
   )
 }
