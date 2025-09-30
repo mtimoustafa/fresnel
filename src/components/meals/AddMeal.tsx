@@ -32,7 +32,7 @@ export default function AddMeal () {
         body: JSON.stringify(mealProperties)
       })
     } catch (error) {
-      return { error: error.message, meal: previousMealState }
+      return { error: error.message, meal: mealProperties }
     }
 
     navigate(pages.allMeals)
@@ -84,7 +84,7 @@ export default function AddMeal () {
       </button>
 
       <button
-        type="submit"
+        onClick={() => navigate(pages.allMeals)}
         className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
         disabled={isPendingAddMeal}
       >
