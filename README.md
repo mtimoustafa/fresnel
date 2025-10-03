@@ -39,6 +39,7 @@ Node v22.19.0+.
 - [ ] Use SSG with hydration.
 - [ ] Convert the codebase from JS to TS.
 - [ ] Add a linter to learn syntactic best practices.
+- [ ] Add a testing suite
 
 ### Strech goals
 
