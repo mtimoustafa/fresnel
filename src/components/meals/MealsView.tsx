@@ -3,10 +3,10 @@ import MealsContext from './MealsContext.tsx'
 import MealsList from './MealsList.tsx'
 import AddMeal from './AddMeal.tsx'
 
-export default function MealsView ({ currentView }) {
-  const { pages } = useContext(MealsContext)
+export default function MealsView () {
+  const { mealsNav: { current, pages } } = useContext(MealsContext)
 
-  switch (currentView) {
+  switch (current) {
     case pages.addMeal:
       return (
         <div>

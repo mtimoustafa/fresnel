@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useOptimistic, useState } from 'react'
 
 export default function useMeals () {
   const [mealsList, setMealsList] = useState([])
   const [loadingMeals, setloadingMeals] = useState(true)
+  const [optimisticMealsList, addOptimisticMeal] = useOptimistic(
+    mealsList,
+    (currentMealsList, optimisticMeal) => {
+      console.log('opt add', [...currentMealsList, optimisticMeal])
+      return [...currentMealsList, optimisticMeal]
+    },
+  )
 
   useEffect(() => {
     fetchMealsList()
@@ -25,5 +32,30 @@ export default function useMeals () {
     }
   }
 
-  return { mealsList, loadingMeals }
+  async function addMealToList (mealProperties) {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/meals`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mealProperties)
+      })
+
+      const result = await response.json()
+      console.log('adding')
+      setMealsList([ ...mealsList, result])
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
+
+  return {
+    mealsList,
+    addMealToList,
+    loadingMeals,
+    optimisticMealsList,
+    addOptimisticMeal,
+  }
 }

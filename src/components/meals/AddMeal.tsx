@@ -1,20 +1,10 @@
-import { useActionState, useContext } from 'react'
+import { useContext } from 'react'
 import MealsContext from './MealsContext.tsx'
 
 export default function AddMeal () {
-  const { pages, navigate } = useContext(MealsContext)
+  const { addMealToList, addOptimisticMeal, mealsNav: { pages, navigate } } = useContext(MealsContext)
 
-  const [ addMealState, addMealFunction, isPendingAddMeal ] = useActionState(addMeal, {
-    meal: {
-      name: '',
-      mealTypes: [],
-      difficulty: 'easy',
-      leftoverable: false,
-    },
-    error: null,
-  })
-
-  async function addMeal (previousMealState, mealData) {
+  function addMeal (mealData) {
     const mealProperties = {
       name: mealData.get('name'),
       mealTypes: ['breakfast', 'lunch', 'dinner'].filter(mealType => mealData.has(mealType)),
@@ -22,25 +12,13 @@ export default function AddMeal () {
       leftoverable: mealData.has('leftoverable'),
     }
 
-    try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/meals`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(mealProperties)
-      })
-    } catch (error) {
-      return { error: error.message, meal: mealProperties }
-    }
-
-    navigate(pages.allMeals)
-    return { meal: mealProperties, error: null }
+    addOptimisticMeal(mealProperties)
+    addMealToList(mealProperties)
+    navigate(pages.viewMeals)
   }
 
   return (
-    <form action={addMealFunction} className="space-y-4">
+    <form action={addMeal} className="space-y-4">
       <div>
         <label htmlFor="name">Name</label>
         <input type="text" id="name" name="name" />
@@ -78,22 +56,16 @@ export default function AddMeal () {
       <button
         type="submit"
         className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
-        disabled={isPendingAddMeal}
       >
-        {isPendingAddMeal ? 'Adding...' : 'Add Meal'}
+        Add meal
       </button>
 
       <button
-        onClick={() => navigate(pages.allMeals)}
+        onClick={() => navigate(pages.viewMeals)}
         className="bg-gray-700 px-4 py-2 rounded-lg hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900 disabled:bg-gray-900 disabled:cursor-auto"
-        disabled={isPendingAddMeal}
       >
         Cancel
       </button>
-
-      {addMealState.error &&
-        <p>{addMealState.error}</p>
-      }
     </form>
   )
 }

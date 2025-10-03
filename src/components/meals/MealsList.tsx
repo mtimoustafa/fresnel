@@ -3,24 +3,22 @@ import MealsContext from './MealsContext.tsx'
 import useMeals from '../../hooks/useMeals.tsx'
 import MealCard from '../shared/MealCard.tsx'
 
-export default function MealsList() {
-  const { pages, navigate } = useContext(MealsContext)
-
-  const { mealsList, loadingMeals } = useMeals()
+export default function MealsList({ meals }) {
+  const { optimisticMealsList, loadingMeals, mealsNav: { pages, navigate } } = useContext(MealsContext)
 
   if (loadingMeals) {
     return <p>Loading...</p>
   }
 
-  if (mealsList?.length === 0) {
+  if (meals?.length === 0) {
     return <p>No meals yet.</p>
   }
 
   return (
     <div className="space-y-8">
       <ul className="flex flex-col gap-8">
-        {mealsList.map(meal => (
-          <li key={meal.id}>
+        {meals.map((meal, index) => (
+          <li key={index}>
             <MealCard
               name={meal.name}
               mealTypes={meal.mealTypes}
