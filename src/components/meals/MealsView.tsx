@@ -1,10 +1,10 @@
-import { useContext } from 'react'
-import MealsContext from './MealsContext.tsx'
+import { useMealsContext } from '../../contexts/MealsContext.tsx'
+
 import MealsList from './MealsList.tsx'
 import AddMeal from './AddMeal.tsx'
 
 export default function MealsView () {
-  const { mealsNav: { current, pages } } = useContext(MealsContext)
+  const { mealsNav: { current, pages } } = useMealsContext()
 
   switch (current) {
     case pages.addMeal:

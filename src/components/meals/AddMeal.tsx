@@ -1,16 +1,16 @@
 import { useContext, useOptimistic } from 'react'
-import MealsContext from '../../contexts/MealsContext.ts'
+import { useMealsContext } from '../../contexts/MealsContext.tsx'
 
 export default function AddMeal () {
-  const { addMealToList, addOptimisticMeal, mealsNav: { pages, navigate } } = useContext(MealsContext)
+  const { addMeal: addMealToList, mealsNav: { pages, navigate } } = useMealsContext()
 
-  const [optimisticMealsList, addOptimisticMeal] = useOptimistic(
-    mealsList,
-    (currentMealsList, optimisticMeal) => {
-      console.log('opt add', [...currentMealsList, optimisticMeal])
-      return [...currentMealsList, optimisticMeal]
-    },
-  )
+  // const [optimisticMealsList, addOptimisticMeal] = useOptimistic(
+  //   mealsList,
+  //   (currentMealsList, optimisticMeal) => {
+  //     console.log('opt add', [...currentMealsList, optimisticMeal])
+  //     return [...currentMealsList, optimisticMeal]
+  //   },
+  // )
 
   function addMeal (mealData) {
     const mealProperties = {
@@ -20,7 +20,7 @@ export default function AddMeal () {
       leftoverable: mealData.has('leftoverable'),
     }
 
-    addOptimisticMeal(mealProperties)
+    // addOptimisticMeal(mealProperties)
     addMealToList(mealProperties)
     navigate(pages.viewMeals)
   }
