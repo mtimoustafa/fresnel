@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import useMeals from '../../hooks/useMeals.tsx'
+import MealsContext from '../../contexts/MealsContext.ts'
+import MealsNavigationContext from '../../contexts/MealsNavigationContext.ts'
 
-import MealsContext from './MealsContext.tsx'
-import MealsView from './MealsView.tsx'
+// import MealsView from './MealsView.tsx'
 import MealsList from './MealsList.tsx'
 import AddMeal from './AddMeal.tsx'
 
@@ -27,35 +27,18 @@ function Fallback ({ error, resetErrorBoundary }) {
   )
 }
 
-const mealsPages = {
-  viewMeals: 'viewMeals',
-  addMeal: 'addMeal',
-}
-
 export default function Meals () {
-  const [mealsNav, setMealsNav] = useState({
-    current: mealsPages.viewMeals,
-    pages: mealsPages,
-    navigate: newPage => setMealsNav({ ...mealsNav, current: newPage }),
-  })
-
-  const { mealsList, addMealToList, loadingMeals, optimisticMealsList, addOptimisticMeal } = useMeals()
-
-  const mealsContext = {
-    mealsNav,
-    mealsList,
-    addMealToList,
-    loadingMeals,
-    optimisticMealsList,
-    addOptimisticMeal,
-  }
+  const [meals, setMeals] = useState()
+  const [mealsNavigation, setMealsNavigation] = useState()
 
   return (
-    <MealsContext value={mealsContext}>
-      <ErrorBoundary FallbackComponent={Fallback} onError={logError}>
-        <MealsList meals={optimisticMealsList} />
-        <AddMeal />
-      </ErrorBoundary>
-    </MealsContext>
+    <MealsNavigationContext value={mealsNavigation}>
+      <MealsContext value={meals}>
+        <ErrorBoundary FallbackComponent={Fallback} onError={logError}>
+          <MealsList />
+          <AddMeal />
+        </ErrorBoundary>
+      </MealsContext>
+    </MealsNavigationContext>
   )
 }

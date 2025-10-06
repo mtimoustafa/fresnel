@@ -1,8 +1,14 @@
 import { useEffect, useOptimistic, useState } from 'react'
 
 export default function useMeals () {
+  const [mealsNav, setMealsNav] = useState({
+    current: mealsPages.viewMeals,
+    pages: mealsPages,
+    navigate: newPage => setMealsNav({ ...mealsNav, current: newPage }),
+  })
   const [mealsList, setMealsList] = useState([])
   const [loadingMeals, setloadingMeals] = useState(true)
+
   const [optimisticMealsList, addOptimisticMeal] = useOptimistic(
     mealsList,
     (currentMealsList, optimisticMeal) => {
@@ -10,6 +16,11 @@ export default function useMeals () {
       return [...currentMealsList, optimisticMeal]
     },
   )
+
+  const mealsPages = {
+    viewMeals: 'viewMeals',
+    addMeal: 'addMeal',
+  }
 
   useEffect(() => {
     fetchMealsList()

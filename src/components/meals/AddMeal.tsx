@@ -1,8 +1,16 @@
-import { useContext } from 'react'
-import MealsContext from './MealsContext.tsx'
+import { useContext, useOptimistic } from 'react'
+import MealsContext from '../../contexts/MealsContext.ts'
 
 export default function AddMeal () {
   const { addMealToList, addOptimisticMeal, mealsNav: { pages, navigate } } = useContext(MealsContext)
+
+  const [optimisticMealsList, addOptimisticMeal] = useOptimistic(
+    mealsList,
+    (currentMealsList, optimisticMeal) => {
+      console.log('opt add', [...currentMealsList, optimisticMeal])
+      return [...currentMealsList, optimisticMeal]
+    },
+  )
 
   function addMeal (mealData) {
     const mealProperties = {

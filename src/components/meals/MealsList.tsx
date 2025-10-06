@@ -1,10 +1,10 @@
 import { useContext } from 'react'
-import MealsContext from './MealsContext.tsx'
+import MealsContext from '../../contexts/MealsContext.ts'
 import useMeals from '../../hooks/useMeals.tsx'
 import MealCard from '../shared/MealCard.tsx'
 
 export default function MealsList({ meals }) {
-  const { optimisticMealsList, loadingMeals, mealsNav: { pages, navigate } } = useContext(MealsContext)
+  const { loadingMeals, mealsNav: { pages, navigate } } = useContext(MealsContext)
 
   if (loadingMeals) {
     return <p>Loading...</p>
